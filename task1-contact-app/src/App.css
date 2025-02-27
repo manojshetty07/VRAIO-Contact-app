@@ -1,0 +1,179 @@
+/* General Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+/* Modal Form */
+.modal-form {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 500px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Modal Title */
+.modal-title {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+/* Modal Text */
+.modal-text {
+  font-size: 1rem;
+  margin-bottom: 20px;
+}
+
+/* Close Button in View Modal */
+.modal-close-btn {
+  text-align: right;
+}
+
+/* Form Buttons */
+.form-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+/* Cancel and Delete Buttons */
+.cancel-button,
+.save-button,
+.delete-button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.cancel-button {
+  background-color: #ccc;
+  color: white;
+}
+
+.save-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.delete-button {
+  background-color: red;
+  color: white;
+}
+
+/* Add Contact Button */
+.add-contact-btn-container {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.add-contact-btn {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.add-contact-btn:hover {
+  background-color: #45a049;
+}
+
+/* Contact Card Container */
+.contact-card-container {
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+.contact-card-details {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+}
+
+.contact-card-details span {
+  margin: 5px 0;
+}
+
+.contact-card-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.action-icon {
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.action-icon:hover {
+  transform: scale(1.1);
+}
+
+.view-icon {
+  color: #007bff;
+}
+
+.edit-icon {
+  color: #ff7f00;
+}
+
+.delete-icon {
+  color: red;
+}
+
+/* Contact List */
+.contact-card-list-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-card-item {
+  margin-bottom: 10px;
+}
+
+/* Input Field */
+.input-field {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.input-field:focus {
+  border-color: #4caf50;
+  outline: none;
+}
+
+/* Modal Specific Styles */
+.modal-list-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.modal-list-item span {
+  font-weight: bold;
+}
+
+.title-container {
+  text-align: center;
+  font-size: 2rem;
+  margin: 20px 0;
+  color: #333;
+}

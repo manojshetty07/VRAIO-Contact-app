@@ -1,7 +1,7 @@
-import React, { useRef } from "react";
-import InputBox from "../TextInput";
+import React, { useEffect, useRef, useState } from "react";
+import { IoMdAddCircle, IoMdRemoveCircle } from "react-icons/io";
 import useData from "../../Detailsprovider/ContactDataProvider";
-
+import InputBox from "../TextInput";
 
 export function ContactDetailsModal() {
   const {
@@ -13,39 +13,56 @@ export function ContactDetailsModal() {
     setContactIdToUpdate,
     updateContact,
   } = useData();
-  
-  const firstNameRef = useRef();
-  const lastNameRef = useRef();
-  const nickNameRef = useRef();
-  const dobRef = useRef();
-  const phoneNumber1Ref = useRef();
-  const phoneNumber2Ref = useRef();
-  const email1Ref = useRef();
-  const email2Ref = useRef();
+
+  const firstNameRef = useRef(0);
+  const lastNameRef = useRef(0);
+  const nickNameRef = useRef(0);
+  const dobRef = useRef(0);
+  const phoneNumberRef = useRef([]);
+  const emailRef = useRef([]);
 
   const [contact] = getContact(contactIdToUpdate);
+  const [addPhoneField, setAddPhoneField] = useState([0]);
+  const [addEmailField, setAddEmailField] = useState([0]);
 
-  async function handleSubmit() {
-    const data = {
+  useEffect(() => {
+    if (contact?.phoneNumber) {
+      setAddPhoneField(contact.phoneNumber.map((_, i) => i));
+    }
+    if (contact?.email) {
+      setAddEmailField(contact.email.map((_, i) => i));
+    }
+  }, [contact]);
+
+  function handleSubmit() {
+    const phNums = addPhoneField
+      .map((val) => phoneNumberRef.current[val].value.trim())
+      .filter((num) => num !== "")
+      .map(Number);
+
+    const emails = addEmailField
+      .map((val) => emailRef.current[val].value.trim())
+      .filter((email) => email !== "");
+
+    let data = {
       id: contact?.id || Date.now(),
-      firstName: firstNameRef.current.value,
-      lastName: lastNameRef.current.value,
-      nickName: nickNameRef.current.value,
-      dob: dobRef.current.value,
-      phoneNumber1: phoneNumber1Ref.current.value,
-      phoneNumber2: phoneNumber2Ref.current.value,
-      email1: email1Ref.current.value,
-      email2: email2Ref.current.value,
+      firstName: firstNameRef?.current?.value,
+      lastName: lastNameRef?.current?.value,
+      nickName: nickNameRef?.current?.value,
+      dob: dobRef?.current?.value,
+      phoneNumber: phNums,
+      email: emails,
     };
-
     if (contact?.id) {
-      await updateContact(contact.id, data); // Pass data for update
+      // updateContact(contact.id, data); 
+      updateContact(data); 
       setContactIdToUpdate(null);
     } else {
-      addContact(data); // Add new contact
+      addContact(data); 
     }
-    
     setOpenContactModal(false);
+    setAddPhoneField([0]);
+    setAddEmailField([0]);
   }
 
   if (!openContactModal) return null;
@@ -62,14 +79,14 @@ export function ContactDetailsModal() {
         <div className="form-group">
           <InputBox
             type="text"
-            placeholder="Firstname"
+            placeholder="First Name"
             inputRef={firstNameRef}
             required={true}
             value={contact?.firstName}
           />
           <InputBox
             type="text"
-            placeholder="Lastname"
+            placeholder="Last Name"
             inputRef={lastNameRef}
             value={contact?.lastName}
           />
@@ -81,55 +98,97 @@ export function ContactDetailsModal() {
           />
           <InputBox
             type="date"
-            placeholder="DOB"
+            placeholder="Date of Birth"
             inputRef={dobRef}
             value={contact?.dob}
           />
-          <InputBox
-            type="tel"
-            placeholder="Phone number 1"
-            pattern="\d{10}"
-            Msg="Please enter exactly 10 digits"
-            inputRef={phoneNumber1Ref}
-            required={true}
-            value={contact?.phoneNumber1}
-          />
-          <InputBox
-            type="tel"
-            placeholder="Phone number 2 (Optional)"
-            pattern="\d{10}"
-            Msg="Please enter exactly 10 digits"
-            inputRef={phoneNumber2Ref}
-            value={contact?.phoneNumber2}
-          />
-          <InputBox
-            type="email"
-            placeholder="Email 1"
-            inputRef={email1Ref}
-            required={true}
-            value={contact?.email1}
-          />
-          <InputBox
-            type="email"
-            placeholder="Email 2"
-            inputRef={email2Ref}
-            value={contact?.email2}
-          />
+
+          
+          {addPhoneField.map((val, i) => (
+            <div className="input-group" key={val}>
+              <InputBox
+                type="tel"
+                placeholder="Phone Number"
+                pattern="\d{10}"
+                Msg="Please enter exactly 10 digits"
+                inputRef={(el) => (phoneNumberRef.current[val] = el)}
+                required={i === 0}
+                value={contact?.phoneNumber[i]}
+              />
+              {i === 0 ? (
+                <IoMdAddCircle
+                  size={28}
+                  className="add-icon"
+                  onClick={() =>
+                    setAddPhoneField([
+                      ...addPhoneField,
+                      addPhoneField[addPhoneField.length - 1] + 1,
+                    ])
+                  }
+                />
+              ) : (
+                <IoMdRemoveCircle
+                  size={28}
+                  className="remove-icon"
+                  onClick={() =>
+                    setAddPhoneField(
+                      addPhoneField.filter((value) => val !== value)
+                    )
+                  }
+                />
+              )}
+            </div>
+          ))}
+
+         
+          {addEmailField.map((val, i) => (
+            <div className="input-group" key={val}>
+              <InputBox
+                type="email"
+                placeholder="Email"
+                inputRef={(el) => (emailRef.current[val] = el)}
+                required={i === 0}
+                value={contact?.email[i]}
+              />
+              {i === 0 ? (
+                <IoMdAddCircle
+                  size={28}
+                  className="add-icon"
+                  onClick={() =>
+                    setAddEmailField([
+                      ...addEmailField,
+                      addEmailField[addEmailField.length - 1] + 1,
+                    ])
+                  }
+                />
+              ) : (
+                <IoMdRemoveCircle
+                  size={28}
+                  className="remove-icon"
+                  onClick={() =>
+                    setAddEmailField(
+                      addEmailField.filter((value) => val !== value)
+                    )
+                  }
+                />
+              )}
+            </div>
+          ))}
+
           <div className="form-buttons">
             <button
               type="button"
               onClick={() => {
                 setOpenContactModal(false);
                 setContactIdToUpdate(null);
+                setAddPhoneField([0]);
+                setAddEmailField([0]);
               }}
-              className="cancel-button"
+              className="cancel-btn"
             >
               Cancel
             </button>
-            <button
-              type="submit"
-              className="save-button"
-            >
+            <button type="submit" className="save-btn">
               Save
             </button>
           </div>

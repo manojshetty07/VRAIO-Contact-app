@@ -5,7 +5,7 @@ import useData from "../../Detailsprovider/ContactDataProvider";
 export default function ContactViewModal() {
   const { setContactIdToView, contactIdToView, getContact } = useData();
   const [contact] = getContact(contactIdToView);
-  const listStyle = "modal-list-item"; // Using a custom CSS class
+  const listStyle = "modal-list-item"; 
 
   if (!contactIdToView) return null;
 
@@ -36,25 +36,21 @@ export default function ContactViewModal() {
           </div>
         )}
         <div className={listStyle}>
-          <span>Phone Number: </span>
-          <span>{contact.phoneNumber1}</span>
-        </div>
-        {contact.phoneNumber2 && (
-          <div className={listStyle}>
-            <span>Phone Number 2: </span>
-            <span>{contact.phoneNumber2}</span>
+          <span>Phone Number:- </span>
+          <div className="flex-col">
+            {contact.phoneNumber.map((ph, i) => (
+              <span key={i}>{ph}</span>
+            ))}
           </div>
-        )}
+        </div>
         <div className={listStyle}>
-          <span>Email: </span>
-          <span>{contact.email1}</span>
-        </div>
-        {contact.email2 && (
-          <div className={listStyle}>
-            <span>Email 2: </span>
-            <span>{contact.email2}</span>
+          <span>Email:- </span>
+          <div className="flex-col">
+            {contact.email.map((em, i) => (
+              <span key={i}>{em}</span>
+            ))}
           </div>
-        )}
+        </div>
       </div>
     </div>
   );

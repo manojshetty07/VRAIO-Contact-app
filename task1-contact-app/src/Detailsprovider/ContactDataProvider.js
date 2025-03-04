@@ -11,10 +11,9 @@ export function ContactDataProvider({ children }) {
       lastName: "Shetty",
       nickName: "manu",
       dob: "25-02-2004",
-      phoneNumber1: 9980387713,
-      phoneNumber2: 8458655724,
-      email1: "manoj@gmail.com",
-      email2: "shettymanoj@gmail.com",
+      phoneNumber:[9980387713],
+      email:["manoj@gmail.com"],
+
     },
     {
       id: 2,
@@ -22,10 +21,8 @@ export function ContactDataProvider({ children }) {
       lastName: "Poojary",
       nickName: "mithu",
       dob: "10-08-2003",
-      phoneNumber1: 9874654512,
-      phoneNumber2: "",
-      email1: "mithunpoojary@gmail.com",
-      email2: "",
+      phoneNumber:[9874654512],
+      email: ["mithunpoojary@gmail.com"],
     },
     {
       id: 3,
@@ -33,10 +30,8 @@ export function ContactDataProvider({ children }) {
       lastName: "Acharya",
       nickName: "sudee",
       dob: "18-01-2003",
-      phoneNumber1: 8545647612,
-      phoneNumber2: "",
-      email1: "sudeepacharya@gmail.com",
-      email2: "",
+      phoneNumber:[8545647612],
+      email:["sudeepacharya@gmail.com"],
     },
     
   ]);
@@ -53,13 +48,14 @@ export function ContactDataProvider({ children }) {
   function addContact(contact) {
     try {
       setContactList((prev) => [...prev, contact]);
-    } catch (error) {
-      console.error("Error adding contact:", error);
-    }
+    } catch (error) {}
   }
 
-  async function updateContact(contact) {
-    // Code for updating a contact can be implemented here
+  function updateContact(contact) {
+    try {
+      deleteContact(contact.id);
+      addContact(contact);
+    } catch (error) {}
   }
 
   function deleteContact(contactId) {

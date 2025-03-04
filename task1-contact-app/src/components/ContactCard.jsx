@@ -15,7 +15,7 @@ export default function ContactCard({ name, phone, email, id }) {
   return (
     <div className="contact-card-container">
       <div className="contact-card-details">
-        <span className="contact-name">{name}</span>
+        <span className="contact-name">{name}{" "}</span>
         <span className="contact-phone">{phone}</span>
         <span className="contact-email">{email}</span>
       </div>
